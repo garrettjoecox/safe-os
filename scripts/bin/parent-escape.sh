@@ -11,6 +11,6 @@ if [ "$USER" != "child" ]; then
 fi
 
 # Prompt for password using pkexec/gksu
-pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY /opt/safekids/bin/parent-menu.sh
+pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY /opt/safe-os/bin/parent-menu.sh
 
 exit 0

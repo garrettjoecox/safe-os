@@ -109,7 +109,7 @@
     <!-- PARENT ESCAPE HATCH - Ctrl+Alt+Shift+P -->
     <keybind key="C-A-S-p">
       <action name="Execute">
-        <command>/opt/safekids/bin/parent-escape.sh</command>
+        <command>/opt/safe-os/bin/parent-escape.sh</command>
       </action>
     </keybind>
     

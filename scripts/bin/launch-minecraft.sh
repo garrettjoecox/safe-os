@@ -26,7 +26,7 @@ show_notification() {
 # unshare --net --map-root-user "$MINECRAFT_LAUNCHER" --offline
 
 # Method 2: Use iptables rules (requires pre-configuration)
-# sudo -n /opt/safekids/bin/enable-minecraft-firewall.sh
+# sudo -n /opt/safe-os/bin/enable-minecraft-firewall.sh
 
 # Method 3: Simple offline flag (if Minecraft supports it)
 show_notification "Launching Minecraft in offline mode..."

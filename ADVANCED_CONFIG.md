@@ -9,7 +9,7 @@ Create a script that parents run once to set up user-based firewall rules:
 
 ```bash
 #!/bin/bash
-# /opt/safekids/bin/setup-minecraft-firewall.sh
+# /opt/safe-os/bin/setup-minecraft-firewall.sh
 # Run once as root to set up firewall rules
 
 # Block all outgoing connections for minecraft-launcher when run by child user
@@ -98,7 +98,7 @@ pkexec whoami
 # Verify .desktop files exist
 ls -la ~/.local/share/applications/
 # Check permissions
-chmod +x /opt/safekids/bin/*.sh
+chmod +x /opt/safe-os/bin/*.sh
 ```
 
 ## Maintenance Tasks

@@ -141,13 +141,8 @@ Type=Application
 EOF
 
 # Install Scratch Desktop
-print_info "Installing Scratch Desktop..."
-SCRATCH_URL="https://downloads.scratch.mit.edu/desktop/Scratch%20Desktop-3.29.1.deb"
-wget -q "$SCRATCH_URL" -O /tmp/scratch.deb || print_warn "Failed to download Scratch"
-if [ -f /tmp/scratch.deb ]; then
-    dpkg -i /tmp/scratch.deb || apt install -f -y
-    rm /tmp/scratch.deb
-fi
+print_info "Installing Scratch..."
+apt install -y scratch || print_warn "Failed to install Scratch from repositories"
 
 # Clean up
 print_info "Cleaning up..."

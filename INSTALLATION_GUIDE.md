@@ -51,7 +51,7 @@ sync
 5. Create initial admin account:
    - Username: `parent`
    - Password: [Choose strong password]
-   - Computer name: `safekids-pc`
+   - Computer name: `safe-os-pc`
 
 ## Step 3: Initial System Configuration
 
@@ -171,10 +171,10 @@ EOF
 
 ### Create Application Scripts Directory
 ```bash
-sudo mkdir -p /opt/safekids/apps
-sudo mkdir -p /opt/safekids/bin
-sudo cp -r scripts/* /opt/safekids/
-sudo chmod +x /opt/safekids/bin/*
+sudo mkdir -p /opt/safe-os/apps
+sudo mkdir -p /opt/safe-os/bin
+sudo cp -r scripts/* /opt/safe-os/
+sudo chmod +x /opt/safe-os/bin/*
 ```
 
 ### Create Desktop Files for Dock
@@ -295,9 +295,9 @@ sudo update-grub
 ### Create Backup
 ```bash
 # Backup important configs
-sudo tar -czf safekids-backup-$(date +%Y%m%d).tar.gz \
+sudo tar -czf safe-os-backup-$(date +%Y%m%d).tar.gz \
     /home/child/.config \
-    /opt/safekids \
+    /opt/safe-os \
     /etc/lightdm \
     /usr/share/xsessions
 ```
