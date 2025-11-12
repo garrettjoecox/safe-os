@@ -41,7 +41,10 @@ case "$CHOICE" in
         zenity --info --text="Open terminal and use: sudo apt install <package>"
         ;;
     "Switch to Parent Account")
-        dm-tool switch-to-greeter
+        # Use dm-tool to switch to login screen, or try lightdm directly
+        dm-tool switch-to-greeter 2>/dev/null || \
+        DISPLAY=:0 dm-tool switch-to-greeter 2>/dev/null || \
+        zenity --info --text="Please log out manually to switch users"
         ;;
     "Shutdown Computer")
         if zenity --question --text="Are you sure you want to shutdown?"; then

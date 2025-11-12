@@ -117,9 +117,39 @@ print_info "Installing application shortcuts..."
 mkdir -p /home/child/.local/share/applications
 cp "$PROJECT_ROOT/desktop-files/"*.desktop /home/child/.local/share/applications/
 
+# Set child user's default session to Openbox
+echo "openbox" > /home/child/.xsession
+chmod +x /home/child/.xsession
+
 # Fix ownership
 chown -R child:child /home/child/.config
 chown -R child:child /home/child/.local
+
+# Set child user's default session to Openbox via accountsservice
+mkdir -p /var/lib/AccountsService/users
+cat > /var/lib/AccountsService/users/child << EOF
+[User]
+Session=openbox
+XSession=openbox
+SystemAccount=false
+EOF
+
+# Set parent user to keep Ubuntu/GNOME desktop
+PARENT_USER=$(logname 2>/dev/null || echo $SUDO_USER)
+if [ -n "$PARENT_USER" ] && [ "$PARENT_USER" != "root" ] && [ "$PARENT_USER" != "child" ]; then
+    print_info "Configuring parent user ($PARENT_USER) to use Ubuntu desktop..."
+    cat > /var/lib/AccountsService/users/$PARENT_USER << EOF
+[User]
+Session=ubuntu
+XSession=ubuntu
+SystemAccount=false
+EOF
+fi
+
+# Add child user to autologin group
+print_info "Configuring autologin for child user..."
+groupadd -f autologin
+usermod -aG autologin child
 
 # Configure LightDM for autologin
 print_info "Configuring LightDM autologin..."
@@ -128,7 +158,7 @@ cat > /etc/lightdm/lightdm.conf.d/50-autologin.conf << EOF
 [Seat:*]
 autologin-user=child
 autologin-user-timeout=0
-user-session=openbox
+autologin-session=openbox
 EOF
 
 # Create Openbox session file
