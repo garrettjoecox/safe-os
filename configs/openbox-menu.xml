@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Openbox Menu Configuration - Minimal/Empty -->
+<!-- This file effectively disables the right-click menu -->
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+  <menu id="root-menu" label="Openbox">
+    <!-- Menu is intentionally empty to prevent access -->
+  </menu>
+</openbox_menu>

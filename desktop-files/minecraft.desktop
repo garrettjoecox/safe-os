@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Minecraft
+Comment=Play Minecraft (Offline Mode)
+Exec=/opt/safekids/bin/launch-minecraft.sh
+Icon=minecraft
+Terminal=false
+Categories=Game;Kids;
