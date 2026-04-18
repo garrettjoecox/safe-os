@@ -1,35 +1,73 @@
 # Bottom-center dock with five static launcher buttons.
+# Styling adapted from addy-dclxvi/tint2-theme-collections (launchy).
 # tint2 reads /usr/local/share/applications first; we install our safe-* .desktop
 # files there so launcher icons resolve without polluting system-wide menus.
 
-#---- Backgrounds
-rounded = 8
+#-------------------------------------
+# Backgrounds
+#-------------------------------------
+# Background 1: Panel (rounded pill)
+rounded = 18
+border_width = 1
+border_sides = TBLR
+background_color = #1f2430 92
+border_color = #ffffff 10
+background_color_hover = #1f2430 92
+border_color_hover = #ffffff 10
+background_color_pressed = #1f2430 92
+border_color_pressed = #ffffff 10
+
+# Background 2: Launcher container (transparent)
+rounded = 0
 border_width = 0
-background_color = #1f2430 90
+background_color = #000000 0
 border_color = #000000 0
 
-rounded = 8
+# Background 3: Launcher icon hover tile
+rounded = 12
 border_width = 0
 background_color = #ffffff 0
-border_color = #000000 0
+border_color = #ffffff 0
+background_color_hover = #ffffff 24
+border_color_hover = #ffffff 0
+background_color_pressed = #ffffff 10
+border_color_pressed = #ffffff 0
 
-#---- Panel
+# Background 4: Tooltip
+rounded = 6
+border_width = 1
+background_color = #1f2430 96
+border_color = #ffffff 20
+
+#-------------------------------------
+# Panel
+#-------------------------------------
 panel_items = L
-panel_size = 0% 96
-panel_margin = 0 0
-panel_padding = 12 6 12
+panel_size = 560 108
+panel_margin = 0 18
+panel_padding = 14 10 14
 panel_background_id = 1
 wm_menu = 0
 panel_dock = 1
-panel_position = bottom center
+panel_position = bottom center horizontal
 panel_layer = top
-panel_monitor = primary
+panel_monitor = 1
+panel_shrink = 0
+autohide = 0
 strut_policy = follow_size
+panel_window_name = tint2-dock
+disable_transparency = 0
+mouse_effects = 1
+font_shadow = 0
+mouse_hover_icon_asb = 100 0 10
+mouse_pressed_icon_asb = 100 0 0
 
-#---- Launcher
-launcher_padding = 8 6 8
+#-------------------------------------
+# Launcher
+#-------------------------------------
+launcher_padding = 4 8 4
 launcher_background_id = 2
-launcher_icon_background_id = 0
+launcher_icon_background_id = 3
 launcher_icon_size = 72
 launcher_icon_theme_override = 0
 launcher_icon_asb = 100 0 0
@@ -42,7 +80,19 @@ launcher_item_app = /usr/local/share/applications/safe-scratch.desktop
 launcher_item_app = /usr/local/share/applications/safe-gedit.desktop
 launcher_item_app = /usr/local/share/applications/safe-kolourpaint.desktop
 
-#---- Mouse
+#-------------------------------------
+# Tooltip
+#-------------------------------------
+tooltip_show_timeout = 0.4
+tooltip_hide_timeout = 0.1
+tooltip_padding = 8 6
+tooltip_background_id = 4
+tooltip_font_color = #e8ecf1 100
+tooltip_font = Sans 11
+
+#-------------------------------------
+# Mouse
+#-------------------------------------
 mouse_left = none
 mouse_middle = none
 mouse_right = none
