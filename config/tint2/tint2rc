@@ -48,7 +48,10 @@ panel_margin = 0 18
 panel_padding = 14 10 14
 panel_background_id = 1
 wm_menu = 0
-panel_dock = 1
+# panel_dock = 0: do NOT register as _NET_WM_WINDOW_TYPE_DOCK. Openbox places
+# dockapps in its default corner (TopRight) regardless of panel_position, so
+# dock=1 puts the panel in the wrong spot. strut_policy still reserves space.
+panel_dock = 0
 panel_position = bottom center horizontal
 panel_layer = top
 panel_monitor = 1
