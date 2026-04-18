@@ -10,8 +10,15 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 . /etc/os-release
-if [[ "${VERSION_ID:-}" != "24.04" ]]; then
-  echo "Designed for Ubuntu 24.04 (got ${PRETTY_NAME:-unknown}). Aborting." >&2
+if [[ "${ID:-}" != "ubuntu" ]]; then
+  echo "Designed for Ubuntu (got ${PRETTY_NAME:-unknown}). Aborting." >&2
+  exit 1
+fi
+# Developed on 24.04, tested on 25.10. Older releases lack packages we rely on.
+min_major=24
+major="${VERSION_ID%%.*}"
+if [[ -z "$major" || "$major" -lt "$min_major" ]]; then
+  echo "Need Ubuntu ${min_major}.04 or newer (got ${PRETTY_NAME:-unknown}). Aborting." >&2
   exit 1
 fi
 

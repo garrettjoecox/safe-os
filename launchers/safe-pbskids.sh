@@ -6,7 +6,7 @@ set -euo pipefail
 PROFILE="$HOME/.config/safe-pbskids"
 mkdir -p "$PROFILE"
 
-exec chromium-browser \
+exec flatpak run org.chromium.Chromium \
   --user-data-dir="$PROFILE" \
   --kiosk \
   --no-first-run \

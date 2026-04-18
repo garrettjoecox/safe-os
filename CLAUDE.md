@@ -1,10 +1,10 @@
 # safe-os-2
 
-Locked-down Ubuntu 24.04 kiosk for kids. Target hardware: Beelink Intel mini-PC, bare-metal install. Single-screen, single-user, no terminal access.
+Locked-down Ubuntu kiosk for kids (developed on 24.04, tested on 25.10). Target hardware: Beelink Intel mini-PC, bare-metal install. Single-screen, single-user, no terminal access.
 
 ## What this project is
 
-A set of idempotent shell scripts that take a fresh Ubuntu 24.04 desktop install and turn it into a kiosk that:
+A set of idempotent shell scripts that take a fresh Ubuntu desktop install (24.04 or newer) and turn it into a kiosk that:
 
 - Autologins a `kid` user into a stripped Openbox session
 - Shows a tint2 dock with five launcher buttons: PBS Kids, Minecraft, Scratch, Notepad (gedit), Paint (KolourPaint)
@@ -51,13 +51,15 @@ The parent password hash lives at `/etc/safe-os/parent.hash` (mode 0600 root:roo
 
 ## Known caveats
 
-- **Prism keyring download isn't atomic.** `07-minecraft-prism.sh` skips re-downloading if the file exists. A failed mid-download leaves a corrupt file. If trust chain breaks, `rm /etc/apt/keyrings/prismlauncher-archive-keyring.gpg /etc/apt/sources.list.d/prismlauncher.sources` and re-run.
+- **Prism keyring download isn't atomic.** `07-minecraft-prism.sh` skips re-downloading if the file exists. A failed mid-download leaves a corrupt file. If trust chain breaks, `rm /usr/share/keyrings/prismlauncher-archive-keyring.gpg /etc/apt/sources.list.d/prismlauncher.list` and re-run.
+- **Prism repo is community-maintained.** Pulled from `prism-launcher-for-debian.github.io/repo` with the sources line generated from `$UBUNTU_CODENAME`. If a brand-new Ubuntu release ships before that repo adds the pocket, `apt-get update` on step 07 will 404. Fall back to the Flathub flatpak (`org.prismlauncher.PrismLauncher`) and update `safe-minecraft.sh` to invoke it.
 - **Minecraft auth requires one online launch as parent.** Prism caches MS account tokens to `~parent/.local/share/PrismLauncher/`. The kid launcher uses `firejail --net=none` so token refresh never happens — eventually tokens expire (usually weeks). When kid mode stops launching MC, parent re-auths in their own session.
 - **Java version coupling.** We install `openjdk-21-jre`. Newer Minecraft (1.20.5+) wants Java 21; 1.20.4 and older want Java 17. Install `openjdk-17-jre` if you target older versions; Prism picks per-instance.
 - **PBS Kids CDN allowlist is partial.** `pbskids-policy.json` lists pbskids/pbs/akamai/cloudfront. Real videos may pull from other hosts — open devtools in the parent session, watch the network tab on a failing video, add the host to `URLAllowlist`, re-run `install.sh`.
 - **`dconf-no-automount` applies to all users, not just kid.** The profile is named `user` (the dconf default), so the parent's GNOME also gets automount disabled. Acceptable for this box; if you ever need parent automount back, switch to a `kid` profile + `DCONF_PROFILE=kid` env var in the kid session.
 - **Right-click is disabled at the desktop and Openbox-window level only.** Right-click inside apps (Scratch, KolourPaint, gedit, GIMP if added) still works — those apps need it for normal use.
 - **Two Chromium policy directories.** We write to both `/etc/chromium/policies/managed/` and `/etc/chromium-browser/policies/managed/` because the apt-installed binary varies by Ubuntu version on which path it reads. Both copies stay in sync via `install.sh`.
+- **Chromium is a flatpak, not apt.** On 25.10 the `chromium-browser` deb is a transitional shim that installs the snap, and the snap ignores `/etc/chromium/policies/managed/` — which would silently void the PBS Kids allowlist. We install `org.chromium.Chromium` from Flathub instead, and `flatpak override --system --filesystem=/etc/chromium:ro` lets it read the managed-policy dir. Works identically on 24.04.
 
 ## File layout
 

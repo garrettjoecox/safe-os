@@ -18,13 +18,14 @@ apt-get install -y --no-install-recommends \
   unclutter \
   feh
 
-# Curated apps (Minecraft installed in 07-, Scratch in 08-).
+# Curated apps. Minecraft installed in 07-, Scratch in 08-, Chromium in 09-
+# (flatpak rather than apt — 25.10's chromium-browser is a snap transitional
+# package and the snap ignores /etc/chromium/policies/managed).
 apt-get install -y --no-install-recommends \
-  chromium-browser \
   gedit \
   kolourpaint
 
-# Flatpak for Scratch.
+# Flatpak for Scratch and Chromium.
 apt-get install -y --no-install-recommends flatpak
 flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
 
