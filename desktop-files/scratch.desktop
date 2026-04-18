@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Scratch
-Comment=Create games, stories, and animations
-Exec=/opt/safe-os/bin/launch-scratch.sh
-Icon=scratch
-Terminal=false
-Categories=Education;Development;Kids;

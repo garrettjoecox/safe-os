@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Bound to Ctrl+Alt+Shift+P in openbox rc.xml. Prompts for the parent password,
+# then offers a tiny menu of escape actions. Runs as the kid user, so anything
+# privileged dispatches via setuid helper /usr/local/bin/safe-os-priv.
+set -euo pipefail
+
+LOCKFILE="/var/lib/safe-os/lockout"
+HASHFILE="/etc/safe-os/parent.hash"
+MAX_FAILS=3
+WINDOW_S=60
+LOCKOUT_S=300
+
+now=$(date +%s)
+
+# Lockout check.
+if [[ -f "$LOCKFILE" ]]; then
+  locked_until=$(cat "$LOCKFILE" 2>/dev/null || echo 0)
+  if (( now < locked_until )); then
+    yad --error --title="Safe OS" --text="Locked. Try again later." --button=OK:0 >/dev/null 2>&1
+    exit 1
+  fi
+  rm -f "$LOCKFILE" 2>/dev/null || true
+fi
+
+if [[ ! -r "$HASHFILE" ]]; then
+  # File is mode 600 root:root — kid can't read it directly. Verification runs
+  # via the setuid helper installed by 10-parent-escape.sh.
+  :
+fi
+
+pw=$(yad --entry --hide-text --title="Parent password" \
+        --text="Enter parent password to unlock options" \
+        --width=320 --button=OK:0 --button=Cancel:1) || exit 0
+
+# Verification is a privileged check — sudoers permits exactly this one helper.
+if ! sudo -n /usr/local/sbin/safe-os-priv verify-password "$pw"; then
+  unset pw
+  # Track failures in /tmp (kid-writable).
+  fail_log="/tmp/.safe-os-fails-$UID"
+  printf '%s\n' "$now" >> "$fail_log"
+  recent=$(awk -v cutoff=$((now - WINDOW_S)) '$1 >= cutoff' "$fail_log" | wc -l)
+  if (( recent >= MAX_FAILS )); then
+    sudo -n /usr/local/sbin/safe-os-priv set-lockout $((now + LOCKOUT_S))
+    yad --error --title="Safe OS" --text="Too many attempts. Locked for 5 minutes." \
+        --button=OK:0 >/dev/null 2>&1
+  else
+    yad --error --title="Safe OS" --text="Wrong password." --button=OK:0 >/dev/null 2>&1
+  fi
+  exit 1
+fi
+unset pw
+
+action=$(yad --list --title="Parent menu" --width=360 --height=240 \
+   --column=Action --print-column=1 \
+   "Switch to login screen" \
+   "Reboot" \
+   "Shutdown" \
+   --button=OK:0 --button=Cancel:1) || exit 0
+
+case "$action" in
+  "Switch to login screen"*) dm-tool switch-to-greeter ;;
+  "Reboot"*)                 sudo -n /usr/local/sbin/safe-os-priv reboot ;;
+  "Shutdown"*)               sudo -n /usr/local/sbin/safe-os-priv poweroff ;;
+esac

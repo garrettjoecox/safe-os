@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Safe OS Kiosk
+Comment=Locked-down Openbox session for kids
+Exec=/usr/local/bin/safe-os-session
+Type=Application
+DesktopNames=Openbox

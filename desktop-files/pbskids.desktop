@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=PBS Kids
-Comment=Watch PBS Kids shows and play games
-Exec=/opt/safe-os/bin/launch-pbskids.sh
-Icon=applications-internet
-Terminal=false
-Categories=Education;Kids;

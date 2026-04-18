@@ -1,0 +1,33 @@
+{
+  "URLBlocklist": ["*"],
+  "URLAllowlist": [
+    "https://pbskids.org",
+    "https://*.pbskids.org",
+    "https://*.pbs.org",
+    "https://*.akamaized.net",
+    "https://*.akamaihd.net",
+    "https://*.cloudfront.net"
+  ],
+  "HomepageLocation": "https://pbskids.org",
+  "HomepageIsNewTabPage": true,
+  "RestoreOnStartup": 4,
+  "RestoreOnStartupURLs": ["https://pbskids.org"],
+  "BookmarkBarEnabled": false,
+  "EditBookmarksEnabled": false,
+  "BrowserSignin": 0,
+  "SyncDisabled": true,
+  "PasswordManagerEnabled": false,
+  "AutofillAddressEnabled": false,
+  "AutofillCreditCardEnabled": false,
+  "DefaultSearchProviderEnabled": false,
+  "DeveloperToolsAvailability": 2,
+  "IncognitoModeAvailability": 1,
+  "DownloadRestrictions": 3,
+  "ExtensionInstallBlocklist": ["*"],
+  "TranslateEnabled": false,
+  "PrintingEnabled": false,
+  "BrowserAddPersonEnabled": false,
+  "ForceEphemeralProfiles": true,
+  "MetricsReportingEnabled": false,
+  "SafeBrowsingProtectionLevel": 2
+}

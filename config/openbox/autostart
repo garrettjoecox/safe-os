@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Runs once when openbox starts the kid session.
+
+# Solid background, no wallpaper file required.
+xsetroot -solid "#2E3440" &
+
+# Disable DPMS / screen blank / screensaver — kids walk away mid-paint.
+xset s off &
+xset -dpms &
+xset s noblank &
+
+# Hide the cursor after 3s of idle.
+unclutter -idle 3 -root &
+
+# Dock.
+tint2 &

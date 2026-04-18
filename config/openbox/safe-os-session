@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# LightDM Exec= target. Sets a minimal, predictable env then hands off to openbox.
+
+export XDG_CURRENT_DESKTOP=Openbox
+export XDG_SESSION_DESKTOP=Openbox
+
+# Don't let the kid session pick up org-policy gnome bits if installed.
+unset GNOME_KEYRING_CONTROL GNOME_KEYRING_PID
+
+exec openbox-session

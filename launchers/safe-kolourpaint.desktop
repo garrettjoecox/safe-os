@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Paint
+Comment=Draw and paint
+Icon=kolourpaint
+Exec=/usr/local/bin/safe-kolourpaint
+Terminal=false
+Categories=Graphics;
+StartupNotify=false

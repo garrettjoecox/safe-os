@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Notepad
+Comment=Write and save text
+Icon=accessories-text-editor
+Exec=/usr/local/bin/safe-gedit
+Terminal=false
+Categories=Office;
+StartupNotify=false

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Minecraft
+Comment=Play Minecraft (offline only)
+Icon=minecraft-launcher
+Exec=/usr/local/bin/safe-minecraft
+Terminal=false
+Categories=Game;
+StartupNotify=false

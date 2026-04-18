@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=PBS Kids
+Comment=Watch PBS Kids
+Icon=applications-multimedia
+Exec=/usr/local/bin/safe-pbskids
+Terminal=false
+Categories=AudioVideo;
+StartupNotify=false

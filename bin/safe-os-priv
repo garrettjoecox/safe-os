@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Tiny privileged helper. Invoked by `kid` via the sudoers rule installed in
+# 10-parent-escape.sh. Only a fixed set of subcommands is honored — anything
+# else exits non-zero. Argv is fully validated before any side effects.
+set -euo pipefail
+
+if [[ $EUID -ne 0 ]]; then
+  echo "must run as root" >&2
+  exit 1
+fi
+
+HASHFILE="/etc/safe-os/parent.hash"
+LOCKFILE="/var/lib/safe-os/lockout"
+
+cmd="${1:-}"
+case "$cmd" in
+  verify-password)
+    pw="${2:-}"
+    [[ -r "$HASHFILE" ]] || exit 1
+    salt=$(sed -n '1p' "$HASHFILE")
+    expected=$(sed -n '2p' "$HASHFILE")
+    actual=$(printf '%s' "$pw" | argon2 "$salt" -id -t 3 -m 16 -p 2 -e)
+    [[ "$actual" == "$expected" ]] || exit 1
+    ;;
+  set-lockout)
+    until_ts="${2:-}"
+    [[ "$until_ts" =~ ^[0-9]+$ ]] || exit 1
+    install -d -m 0755 /var/lib/safe-os
+    printf '%s\n' "$until_ts" > "$LOCKFILE"
+    chmod 0644 "$LOCKFILE"
+    ;;
+  reboot)
+    systemctl reboot
+    ;;
+  poweroff)
+    systemctl poweroff
+    ;;
+  *)
+    echo "unknown subcommand: $cmd" >&2
+    exit 2
+    ;;
+esac

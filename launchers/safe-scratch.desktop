@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Scratch
+Comment=Make games and animations
+Icon=edu.mit.Scratch
+Exec=/usr/local/bin/safe-scratch
+Terminal=false
+Categories=Education;
+StartupNotify=false
