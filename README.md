@@ -36,3 +36,14 @@ From the kid session: `Ctrl+Alt+Shift+P` → enter parent password → choose sw
 ## Iterating
 
 Edit files under `config/` or `launchers/` and re-run `sudo ./install.sh`. All steps are idempotent. Log out and back in as `kid` to pick up WM/dock changes.
+
+## Uninstall
+
+From the parent account:
+
+```sh
+sudo ./uninstall.sh              # remove kiosk, keep /home/kid
+sudo ./uninstall.sh --purge-kid  # also delete the kid user and home
+```
+
+Reverses LightDM autologin, all lockdown configs, sudoers drop-ins, Chromium/Prism installs, and kid-session files. Apt packages installed in step 02 are left in place (they may have been present before install) — remove manually with `apt purge` if desired. Reboot afterward so display-manager and sysctl changes take full effect.

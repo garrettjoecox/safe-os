@@ -11,9 +11,12 @@ install -m 0755 "$REPO_DIR/bin/safe-os-priv"         /usr/local/sbin/safe-os-pri
 
 # Permit kid -> safe-os-priv only. Filename sorts after 10-no-kid so this
 # more-specific allow rule wins per sudoers last-match semantics.
+# sudo 1.9.13+ (shipped in Ubuntu 25.10) removed the `requiretty` Defaults
+# setting — it used to be worth explicitly disabling so `yad`-driven invocations
+# from an X session wouldn't be blocked. No-tty invocation is now the default,
+# so we don't need the Defaults line at all.
 install -m 0440 /dev/stdin /etc/sudoers.d/20-safe-os-priv <<'EOF'
 kid ALL=(root) NOPASSWD: /usr/local/sbin/safe-os-priv
-Defaults!/usr/local/sbin/safe-os-priv !requiretty
 EOF
 visudo -cf /etc/sudoers.d/20-safe-os-priv >/dev/null
 
