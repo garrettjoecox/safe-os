@@ -5,6 +5,15 @@
     <screen_edge_strength>20</screen_edge_strength>
   </resistance>
 
+  <!-- Reserve the tint2 dock strip so maximized apps never sit under it.
+       Matches panel_size height in config/tint2/tint2rc and panel_position=bottom. -->
+  <margins>
+    <top>0</top>
+    <bottom>96</bottom>
+    <left>0</left>
+    <right>0</right>
+  </margins>
+
   <focus>
     <focusNew>yes</focusNew>
     <followMouse>no</followMouse>
