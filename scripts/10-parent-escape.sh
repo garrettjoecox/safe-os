@@ -15,9 +15,11 @@ install -m 0755 "$REPO_DIR/bin/safe-os-priv"         /usr/local/sbin/safe-os-pri
 # setting — it used to be worth explicitly disabling so `yad`-driven invocations
 # from an X session wouldn't be blocked. No-tty invocation is now the default,
 # so we don't need the Defaults line at all.
-install -m 0440 /dev/stdin /etc/sudoers.d/20-safe-os-priv <<'EOF'
+cat > /etc/sudoers.d/20-safe-os-priv <<'EOF'
 kid ALL=(root) NOPASSWD: /usr/local/sbin/safe-os-priv
 EOF
+chown root:root /etc/sudoers.d/20-safe-os-priv
+chmod 0440 /etc/sudoers.d/20-safe-os-priv
 visudo -cf /etc/sudoers.d/20-safe-os-priv >/dev/null
 
 # parent-mode reads the hash file (root-owned, mode 600 — kid can never read it).

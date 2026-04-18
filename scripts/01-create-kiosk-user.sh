@@ -15,8 +15,12 @@ for grp in sudo adm dialout cdrom plugdev lpadmin sambashare; do
   gpasswd --delete "$KID_USER" "$grp" &>/dev/null || true
 done
 
-# Block sudo even if somehow added later.
-install -m 0440 /dev/stdin /etc/sudoers.d/10-no-kid <<EOF
+# Block sudo even if somehow added later. Written via cat>/chmod rather than
+# `install /dev/stdin` because that idiom can race with heredoc materialization
+# and intermittently fails with "No such file or directory".
+cat > /etc/sudoers.d/10-no-kid <<EOF
 $KID_USER ALL=(ALL) !ALL
 EOF
+chown root:root /etc/sudoers.d/10-no-kid
+chmod 0440 /etc/sudoers.d/10-no-kid
 visudo -cf /etc/sudoers.d/10-no-kid >/dev/null
